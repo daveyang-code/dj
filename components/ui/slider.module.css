@@ -1,0 +1,15 @@
+.SliderRoot[data-orientation="vertical"] {
+  flex-direction: column;
+  width: 20px;
+  height: 100px;
+}
+
+.SliderTrack[data-orientation="vertical"] {
+  width: 8px;
+  background-color: slategray;
+}
+
+.SliderRange[data-orientation="vertical"] {
+  width: 100%;
+  background-color: slategray;
+}

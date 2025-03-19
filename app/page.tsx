@@ -11,6 +11,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 import ReactPlayer from "react-player";
+import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
 interface TrackItem {
@@ -96,9 +97,22 @@ export default function DJDeck() {
       player1Ref.current.player.player.setVolume(actualVolume1);
     }
 
+    // if (player1Ref.current && player1Ref.current.getInternalPlayer) {
+    //   const internalPlayer1 = player1Ref.current.getInternalPlayer();
+    //   if (internalPlayer1 && typeof internalPlayer1.setVolume === "function") {
+    //     internalPlayer1.setVolume(actualVolume1);
+    //   }
+    // }
     if (player2Ref.current) {
       player2Ref.current.player.player.setVolume(actualVolume2);
     }
+
+    // if (player2Ref.current && player2Ref.current.getInternalPlayer) {
+    //   const internalPlayer2 = player2Ref.current.getInternalPlayer();
+    //   if (internalPlayer2 && typeof internalPlayer2.setVolume === "function") {
+    //     internalPlayer2.setVolume(actualVolume2);
+    //   }
+    // }
   }, [crossfader, volume1, volume2]);
 
   // Add this useEffect to handle keyboard shortcuts
@@ -175,7 +189,7 @@ export default function DJDeck() {
     }
   };
 
-  const handleProgress2 = (state: { played: number; seeking: boolean }) => {
+  const handleProgress2 = (state: { played: number; seeking?: boolean }) => {
     if (!state.seeking) {
       setPlayed2(state.played);
     }
@@ -772,35 +786,35 @@ export default function DJDeck() {
                 {/* Deck 1 Volume */}
                 <div className="flex flex-col items-center space-y-2">
                   <span>1</span>
-                  <input
-                    type="range"
+                  <Slider
+                    orientation="vertical"
                     min={0}
                     max={1}
                     step={0.05}
-                    value={volume1}
-                    onChange={(e) => setVolume1(parseFloat(e.target.value))}
+                    value={[volume1]}
+                    onValueChange={(values) => setVolume1(values[0])}
                     onWheel={(e) => handleScroll(e, setVolume1, 0, 1, 0.05)}
-                    className="h-24 w-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                    orient="vertical"
                   />
-                  <span>{Math.round(volume1 * 100)}%</span>
+                  <span className="w-12 text-center">
+                    {Math.round(volume1 * 100)}%
+                  </span>
                 </div>
 
                 {/* Deck 2 Volume */}
                 <div className="flex flex-col items-center space-y-2">
                   <span>2</span>
-                  <input
-                    type="range"
+                  <Slider
+                    orientation="vertical"
                     min={0}
                     max={1}
                     step={0.05}
-                    value={volume2}
-                    onChange={(e) => setVolume2(parseFloat(e.target.value))}
+                    value={[volume2]}
+                    onValueChange={(values) => setVolume2(values[0])}
                     onWheel={(e) => handleScroll(e, setVolume2, 0, 1, 0.05)}
-                    className="h-24 w-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                    orient="vertical"
                   />
-                  <span>{Math.round(volume2 * 100)}%</span>
+                  <span className="w-12 text-center">
+                    {Math.round(volume2 * 100)}%
+                  </span>
                 </div>
               </div>
             </div>
@@ -853,10 +867,9 @@ export default function DJDeck() {
                     playbackRate={playbackRate2}
                     onDuration={handleDuration2}
                     onProgress={(state) =>
-                      handleProgress2({
-                        ...state,
-                        seeking: state.seeking ?? false,
-                      })
+                      handleProgress2(
+                        state as { played: number; seeking?: boolean }
+                      )
                     }
                     className="rounded"
                   />
