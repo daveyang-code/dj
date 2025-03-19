@@ -8,8 +8,16 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import {
+  PiArrowSquareDown,
+  PiArrowSquareLeft,
+  PiArrowSquareRight,
+  PiNumberSquareOne,
+  PiNumberSquareTwo,
+} from "react-icons/pi";
 import { useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import ReactPlayer from "react-player";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
@@ -496,14 +504,19 @@ export default function DJDeck() {
             <div className="flex flex-col space-y-6">
               {/* Transport Controls */}
               <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setPlaying1(!playing1)}
-                  className={`px-4 py-2 rounded ${
-                    playing1 ? "bg-red-600" : "bg-green-600"
-                  }`}
-                >
-                  {playing1 ? "Pause" : "Play"}
-                </button>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    onClick={() => setPlaying1(!playing1)}
+                    className={`p-2 w-16 rounded ${
+                      playing1
+                        ? "bg-red-600 hover:bg-red-700"
+                        : "bg-green-600 hover:bg-green-700"
+                    }`}
+                  >
+                    {playing1 ? "Pause" : "Play"}
+                  </Button>
+                  <PiNumberSquareOne size={24} />
+                </div>
                 <div>
                   {formatTime(played1 * duration1)} / {formatTime(duration1)}
                 </div>
@@ -561,7 +574,7 @@ export default function DJDeck() {
               </div>
 
               {/* Add Marker Input and Button */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="text"
                   value={markerLabel1}
@@ -569,12 +582,12 @@ export default function DJDeck() {
                   placeholder="Marker label"
                   className="p-2 bg-gray-700 rounded border border-gray-600 text-white flex-grow"
                 />
-                <button
+                <Button
                   onClick={addMarker1}
-                  className="px-4 py-2 bg-blue-600 rounded whitespace-nowrap"
+                  className="bg-blue-600 hover:bg-blue-700 rounded whitespace-nowrap"
                 >
-                  Add Marker
-                </button>
+                  Add
+                </Button>
               </div>
 
               {/* Marker List Toggle */}
@@ -807,7 +820,7 @@ export default function DJDeck() {
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4">Crossfader</h2>
               <div className="flex items-center space-x-2">
-                <span>1</span>
+                <span className="w-4 text-center">1</span>
                 <input
                   type="range"
                   min={0}
@@ -818,7 +831,12 @@ export default function DJDeck() {
                   onWheel={(e) => handleScroll(e, setCrossfader, 0, 100, 10)}
                   className="w-full h-4 bg-gradient-to-r from-blue-500 to-red-500 rounded-lg appearance-none cursor-pointer"
                 />
-                <span>2</span>
+                <span className="w-4 text-center">2</span>
+              </div>
+              <div className="flex justify-between items-center -mx-1 mt-1">
+                <PiArrowSquareLeft size={24} />
+                <PiArrowSquareDown size={24} />
+                <PiArrowSquareRight size={24} />
               </div>
             </div>
           </div>
@@ -873,14 +891,19 @@ export default function DJDeck() {
             <div className="flex flex-col space-y-6">
               {/* Transport Controls */}
               <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setPlaying2(!playing2)}
-                  className={`px-4 py-2 rounded ${
-                    playing2 ? "bg-red-600" : "bg-green-600"
-                  }`}
-                >
-                  {playing2 ? "Pause" : "Play"}
-                </button>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    onClick={() => setPlaying2(!playing2)}
+                    className={`p-2 w-16 rounded ${
+                      playing2
+                        ? "bg-red-600 hover:bg-red-700"
+                        : "bg-green-600 hover:bg-green-700"
+                    }`}
+                  >
+                    {playing2 ? "Pause" : "Play"}
+                  </Button>
+                  <PiNumberSquareTwo size={24} />
+                </div>
                 <div>
                   {formatTime(played2 * duration2)} / {formatTime(duration2)}
                 </div>
@@ -938,7 +961,7 @@ export default function DJDeck() {
               </div>
 
               {/* Add Marker Input and Button */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="text"
                   value={markerLabel2}
@@ -946,12 +969,12 @@ export default function DJDeck() {
                   placeholder="Marker label"
                   className="p-2 bg-gray-700 rounded border border-gray-600 text-white flex-grow"
                 />
-                <button
+                <Button
                   onClick={addMarker2}
-                  className="px-4 py-2 bg-blue-600 rounded whitespace-nowrap"
+                  className="bg-blue-600 hover:bg-blue-700 rounded whitespace-nowrap"
                 >
-                  Add Marker
-                </button>
+                  Add
+                </Button>
               </div>
 
               {/* Marker List Toggle */}
