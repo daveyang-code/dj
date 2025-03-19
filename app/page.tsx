@@ -71,6 +71,9 @@ export default function DJDeck() {
   const player1Ref = useRef<ReactPlayer>(null);
   const player2Ref = useRef<ReactPlayer>(null);
 
+  const actualVolume1 = volume1 * (1 - crossfader / 100);
+  const actualVolume2 = volume2 * (crossfader / 100);
+
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -86,34 +89,6 @@ export default function DJDeck() {
       setFilteredLibrary([...urlLibrary]);
     }
   }, [searchTerm, urlLibrary]);
-
-  // Calculate actual volumes based on crossfader
-  useEffect(() => {
-    const cf = crossfader / 100;
-    const actualVolume1 = volume1 * (1 - cf);
-    const actualVolume2 = volume2 * cf;
-
-    if (player1Ref.current) {
-      player1Ref.current.player.player.setVolume(actualVolume1);
-    }
-
-    // if (player1Ref.current && player1Ref.current.getInternalPlayer) {
-    //   const internalPlayer1 = player1Ref.current.getInternalPlayer();
-    //   if (internalPlayer1 && typeof internalPlayer1.setVolume === "function") {
-    //     internalPlayer1.setVolume(actualVolume1);
-    //   }
-    // }
-    if (player2Ref.current) {
-      player2Ref.current.player.player.setVolume(actualVolume2);
-    }
-
-    // if (player2Ref.current && player2Ref.current.getInternalPlayer) {
-    //   const internalPlayer2 = player2Ref.current.getInternalPlayer();
-    //   if (internalPlayer2 && typeof internalPlayer2.setVolume === "function") {
-    //     internalPlayer2.setVolume(actualVolume2);
-    //   }
-    // }
-  }, [crossfader, volume1, volume2]);
 
   // Add this useEffect to handle keyboard shortcuts
   useEffect(() => {
@@ -496,12 +471,21 @@ export default function DJDeck() {
                     width="100%"
                     height="100%"
                     playbackRate={playbackRate1}
+                    volume={actualVolume1}
                     onDuration={handleDuration1}
                     onProgress={(state) =>
                       handleProgress1(
                         state as { played: number; seeking?: boolean }
                       )
                     }
+                    onReady={() => {
+                      // Player is ready, you can now safely set the volume
+                      if (player1Ref.current) {
+                        player1Ref.current
+                          .getInternalPlayer()
+                          .setVolume(actualVolume1);
+                      }
+                    }}
                     className="rounded"
                   />
                 </div>
@@ -865,12 +849,20 @@ export default function DJDeck() {
                     width="100%"
                     height="100%"
                     playbackRate={playbackRate2}
+                    volume={actualVolume2}
                     onDuration={handleDuration2}
                     onProgress={(state) =>
                       handleProgress2(
                         state as { played: number; seeking?: boolean }
                       )
                     }
+                    onReady={() => {
+                      if (player2Ref.current) {
+                        player2Ref.current
+                          .getInternalPlayer()
+                          .setVolume(actualVolume2);
+                      }
+                    }}
                     className="rounded"
                   />
                 </div>
