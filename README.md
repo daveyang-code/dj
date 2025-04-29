@@ -19,11 +19,11 @@ Virtual DJ Deck is a simple web-based digital DJ mixing platform built with Reac
   - Quick Navigation: Jump instantly to any marker position
   - Visual Timeline: See markers displayed on the track progress bar
 
-Track Library
-- Track Management: Add, remove, and reorder tracks in your library
-- BPM Information: Store and display BPM information for each track
-- Export/Import: Save and share your library including all markers
-- Track Selection: Select tracks to load into either deck
+- Track Library
+  - Track Management: Add, remove, and reorder tracks in your library
+  - BPM Information: Store and display BPM information for each track
+  - Export/Import: Save and share your library including all markers
+  - Track Selection: Select tracks to load into either deck
 
 # Images
 ![image](https://github.com/user-attachments/assets/47fe4f9e-93a7-4fca-afa6-d6be0312c1bc)
